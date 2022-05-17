@@ -26,7 +26,7 @@ Then(/^URL should match (.*)$/, async function (expectedURL) {
 
 //WEB interactions
 Given(/^A web page is opened$/, async function(){
-  await browser.url(""); // can be empty becouse base URL is set
+  await browser.url("/tables"); // can be empty becouse base URL is set
   await browser.setTimeout({implicit: 15000, pageLoad: 10000})
   await browser.maximizeWindow()
 
@@ -180,8 +180,76 @@ When(/^Perform Web Interactions$/, async function(){
   // 9. Scrolling      ************************************************************************************
 
 
-  await $('span=Most wished for in Video Games').scrollIntoView(false)
-   await browser.pause(3000)
+  //  await $('span=Most wished for in Video Games').scrollIntoView(false)
+   
+ 
+  //10. Tables 
+  //Check number of rows and columns
+   let rowCount  = await $$(`//table[@id="table1"]/tbody/tr`).length
+   chai.expect(rowCount).to.equal(4)
+   console.log(`>> number of rows: ${rowCount}`)
+
+   let colCount  = await $$(`//table[@id="table1"]/thead/tr/th`).length
+   chai.expect(colCount).to.equal(6)
+   console.log(`>> number of columns: ${colCount}`)
+
+   //Get Table data
+
+  //  let arr = []
+  //  for (let i =0; i<rowCount; i++){
+  //   let personObj = {
+  //     lastname: "",
+  //     firsname: "",
+  //     email: "",
+  //     due: "",
+  //     web: ""
+  //   }
+  //    for(let j=0; j<colCount; j++){
+  //      let cellVal = await $(`//table[@id="table1"]/tbody/tr[${i+1}]/td[${j+1}]`).getText()
+  //      console.log(`>> Cell value: ${cellVal}`)
+  //      if (j===0)personObj.lastname = cellVal
+  //      if (j===1)personObj.firsname = cellVal
+  //      if (j===2)personObj.email = cellVal
+  //      if (j===3)personObj.due = cellVal
+  //      if (j===4)personObj.web = cellVal
+  //    }
+  //    arr.push(personObj)
+  //  }
+  // console.log(`>> Array of objects: ${JSON.stringify(arr)}`)
+
+  // get single row based on condiotion 
+  let arr = []
+   for (let i =0; i<rowCount; i++){
+    let personObj = {
+      lastname: "",
+      firsname: "",
+      email: "",
+      due: "",
+      web: ""
+    }
+     for(let j=0; j<colCount; j++){
+       let cellVal = await $(`//table[@id="table1"]/tbody/tr[${i+1}]/td[${j+1}]`).getText()
+       
+       let firstName = await $(`//table[@id="table1"]/tbody/tr[${i+1}]/td[${2}]`).getText() 
+       if (firstName === "Jason"){
+        if (j===0)personObj.lastname = cellVal
+        if (j===1)personObj.firsname = cellVal
+        if (j===2)personObj.email = cellVal
+        if (j===3)personObj.due = cellVal
+        if (j===4)personObj.web = cellVal
+       }
+     
+     }
+     if(personObj.firsname){ // if value is NOT folsy it will be pushed
+     arr.push(personObj) 
+     }
+   }
+  console.log(`>> Array of objects: ${JSON.stringify(arr)}`)
+  
+  // get single column based on condiotion 
+   
+  
+  await browser.pause(3000)
 
 
 })
