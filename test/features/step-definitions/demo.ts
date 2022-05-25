@@ -193,7 +193,7 @@ When(/^Perform Web Interactions$/, async function(){
    chai.expect(colCount).to.equal(6)
    console.log(`>> number of columns: ${colCount}`)
 
-   //Get Table data
+   //Get Table data *********************************************************************** 
 
   //  let arr = []
   //  for (let i =0; i<rowCount; i++){
@@ -217,38 +217,58 @@ When(/^Perform Web Interactions$/, async function(){
   //  }
   // console.log(`>> Array of objects: ${JSON.stringify(arr)}`)
 
-  // get single row based on condiotion 
-  let arr = []
-   for (let i =0; i<rowCount; i++){
-    let personObj = {
-      lastname: "",
-      firsname: "",
-      email: "",
-      due: "",
-      web: ""
-    }
-     for(let j=0; j<colCount; j++){
-       let cellVal = await $(`//table[@id="table1"]/tbody/tr[${i+1}]/td[${j+1}]`).getText()
-       
-       let firstName = await $(`//table[@id="table1"]/tbody/tr[${i+1}]/td[${2}]`).getText() 
-       if (firstName === "Jason"){
-        if (j===0)personObj.lastname = cellVal
-        if (j===1)personObj.firsname = cellVal
-        if (j===2)personObj.email = cellVal
-        if (j===3)personObj.due = cellVal
-        if (j===4)personObj.web = cellVal
+  // get single row based on condiotion *********************************************************************** 
+    // let arr = []
+    //  for (let i =0; i<rowCount; i++){
+    //   let personObj = {
+    //     lastname: "",
+    //     firsname: "",
+    //     email: "",
+    //     due: "",
+    //     web: ""
+    //   }
+    //    for(let j=0; j<colCount; j++){
+    //      let cellVal = await $(`//table[@id="table1"]/tbody/tr[${i+1}]/td[${j+1}]`).getText()
+        
+    //      let firstName = await $(`//table[@id="table1"]/tbody/tr[${i+1}]/td[${2}]`).getText() 
+    //      if (firstName === "Jason"){
+    //       if (j===0)personObj.lastname = cellVal
+    //       if (j===1)personObj.firsname = cellVal
+    //       if (j===2)personObj.email = cellVal
+    //       if (j===3)personObj.due = cellVal
+    //       if (j===4)personObj.web = cellVal
+    //      }
+      
+    //    }
+    //    if(personObj.firsname){ // if value is NOT folsy it will be pushed
+    //    arr.push(personObj) 
+    //    }
+    //  }
+    // console.log(`>> Array of objects: ${JSON.stringify(arr)}`)
+  
+  // get single column based on condiotion *********************************************************************** 
+    // let arr = []
+    // for (let i =0; i<rowCount; i++){
+    //   let cellVal = await $(`//table[@id="table1"]/tbody/tr[${i+1}]/td[4]`).getText()
+    //   arr.push(cellVal)
+    // }
+    // console.log(`>> single column value: ${arr}`)
+  
+  // get single cell based on condiotion *********************************************************************** 
+   let arr = [];
+   for (let i = 0; i < rowCount; i++) {
+   
+       //let cellVal = await $(`//table[@id="table1"]/tbody/tr[${i + 1}]/td[${j+1}]`).getText();
+       let price = await $(`//table[@id="table1"]/tbody/tr[${i + 1}]/td[4]`).getText();
+       let firstName = await $(`//table[@id="table1"]/tbody/tr[${i + 1}]/td[2]`).getText();
+       if(+(price.replace("$", "")) > 50 ){ // unary + makes string numeric
+       arr.push(firstName)
        }
      
-     }
-     if(personObj.firsname){ // if value is NOT folsy it will be pushed
-     arr.push(personObj) 
-     }
    }
-  console.log(`>> Array of objects: ${JSON.stringify(arr)}`)
-  
-  // get single column based on condiotion 
+   console.log(`>> single cell value: ${arr}`);
+   console.log(`browser is: ${JSON.stringify(browser)}`)
    
-  
   await browser.pause(3000)
 
 

@@ -4,8 +4,10 @@
     "description": "wellbe e2e test",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "wdio": "wdio run test/wdio.conf.ts"
+        "test": "echo Hello, WDIO",
+        "wdio": "wdio run test/wdio.conf.ts",
+        "demo": "npx wdio wdio.conf.ts --cucumberOpts.tagExpression='@demo'",
+        "smoke": "npx wdio wdio.conf.ts --cucumberOpts.tagExpression='@smoke'"
     },
     "keywords": [
         "wdio",
